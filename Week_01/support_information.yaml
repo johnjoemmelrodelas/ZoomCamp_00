@@ -1,0 +1,30 @@
+services:
+    postgres:
+        image: postgres:13
+        environment:
+            POSTGRES_USER: airflow
+            POSTGRES_PASSWORD: airflow
+            POSTGRES_DB: airflow
+        volumes:
+            - postgres-db-volume:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "airflow"]
+            interval: 5s
+            retries: 5
+        restart: always
+
+Run docker container for postgres
+docker run -it \
+    -e POSTGRES_USER="root" \
+    -e POSTGRES_PASSWORD="root" \
+    -e POSTGRES_DB="ny_taxi" \
+    -v "C:/Users/ACER\Documents/0 Personal Files/2 - Data Projects/ZoomCamp_00/Week_01/ny_taxi_postgres_data:/var/lib/postgresql/data" \
+    -p 5431:5432 \
+    postgres:13
+
+Access DB using pgcli
+pgcli -h localhost -p 5431 -u root -d ny_taxi
+
+https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
